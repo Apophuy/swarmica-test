@@ -1,24 +1,20 @@
 import styles from './styles.module.scss';
-import { useGetDataQuery } from '../store/queries';
-import { apiPath } from '../api/paths';
-import { useEffect } from 'react';
+// import { apiPath } from '../api/paths';
+// import { useEffect } from 'react';
 
 function App() {
   // const { data, error, isLoading, refetch } = useGetDataQuery(apiPath.instance);
 
-  const data2 = async () => {
-    const res = await fetch(`${apiPath.base}${apiPath.instance}`);
-    const data = await res.json();
-    console.log('data: ', data);
+  // const data2 = async () => {
+  //   const res = await fetch(`${apiPath.base}${apiPath.instance}`);
+  //   const data = await res.json();
 
-    return data;
-  };
+  //   return data;
+  // };
 
-  useEffect(() => {
-    data2().then((data) => {
-      console.log('data2: ', data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   data2().then(() => {});
+  // }, []);
 
   // console.log('data: ', data);
 

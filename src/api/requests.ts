@@ -7,6 +7,7 @@ export type TArticle = {
       ext_id: number;
       rank: number;
       status: string;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       highlight: any;
       public_urls: string;
       created_at: Date;
@@ -51,5 +52,6 @@ export type TInstance = {
   n_weekly_lai: number;
   ticket_form: string;
   features: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   license: any;
 };
