@@ -1,4 +1,4 @@
-const serverPath = 'https://support.swarmica.com';
+const serverPath = ''; // Используем относительный путь
 
 export const apiPath = {
   base: serverPath,

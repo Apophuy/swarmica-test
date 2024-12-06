@@ -1,26 +1,18 @@
+import { useGetInstanceQuery } from '../store/queries';
 import styles from './styles.module.scss';
-// import { apiPath } from '../api/paths';
-// import { useEffect } from 'react';
 
 function App() {
-  // const { data, error, isLoading, refetch } = useGetDataQuery(apiPath.instance);
+  const { data, error, isLoading } = useGetInstanceQuery();
 
-  // const data2 = async () => {
-  //   const res = await fetch(`${apiPath.base}${apiPath.instance}`);
-  //   const data = await res.json();
-
-  //   return data;
-  // };
-
-  // useEffect(() => {
-  //   data2().then(() => {});
-  // }, []);
-
-  // console.log('data: ', data);
+  console.log('Instance data:', data);
+  console.log('Loading:', isLoading);
+  if (error) {
+    console.error('Error:', error);
+  }
 
   return (
-    <div className={styles.container}>
-      <h1>Работает</h1>
+    <div className={styles.app}>
+      <h1>Swarmica Test App</h1>
     </div>
   );
 }
