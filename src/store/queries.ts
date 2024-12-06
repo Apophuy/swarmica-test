@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { apiPath } from '../api/paths';
+import { TArticleReply, TCategoriesReply, TInstanceReply } from '../api/replies';
+import { TArticlesRequest, TCategoriesRequest } from '../api/requests';
 
 export const api = createApi({
   reducerPath: 'api',
@@ -13,16 +15,22 @@ export const api = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getInstance: builder.query<any, void>({
+    getInstance: builder.query<TInstanceReply, void>({
       query: () => apiPath.instance,
     }),
-    getCategories: builder.query<any, void>({
-      query: () => apiPath.categories,
+    getCategories: builder.query<TCategoriesReply, TCategoriesRequest>({
+      query: ({ limit = 100, offset, ordering, public: isPublic }) => ({
+        url: apiPath.categories,
+        params: { limit, offset, ordering, public: isPublic },
+      }),
     }),
-    getArticles: builder.query<any, void>({
-      query: () => apiPath.articles,
+    getArticles: builder.query<TArticleReply, TArticlesRequest>({
+      query: (params) => ({
+        url: apiPath.articles,
+        params,
+      }),
     }),
   }),
 });
 
-export const { useGetInstanceQuery } = api;
+export const { useGetInstanceQuery, useGetCategoriesQuery, useGetArticlesQuery } = api;
