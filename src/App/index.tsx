@@ -1,11 +1,13 @@
 import { useGetArticlesQuery, useGetCategoriesQuery, useGetInstanceQuery } from '../store/queries';
-import { Locales, Status } from '../types';
+import { Locales, Status, TSearchParams } from '../types';
 import { Input, Select, Space, Card, Typography, Empty, Spin, Tag, message } from 'antd';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import styles from './styles.module.scss';
 import { useDebounce } from '../hooks';
 import { STATUS_COLORS, STATUS_OPTIONS } from '../constants';
 import Link from 'antd/es/typography/Link';
+import { TArticle } from '../api/replies';
+import cn from 'classnames';
 
 const { Search } = Input;
 const { Title, Text } = Typography;
@@ -16,12 +18,29 @@ function App() {
   const [selectedLocale, setSelectedLocale] = useState<Locales>(Locales.ru);
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
   const [selectedStatus, setSelectedStatus] = useState<Status | undefined>();
-  const [searchParams, setSearchParams] = useState<{
-    search: string;
-    category?: number;
-    locale?: Locales;
-    status?: Status[];
-  }>();
+  const [searchParams, setSearchParams] = useState<TSearchParams>();
+  const [viewedArticles, setViewedArticles] = useState<TArticle[]>([]);
+
+  useEffect(() => {
+    const savedArticles = localStorage.getItem('savedArticles');
+    if (!savedArticles) {
+      localStorage.setItem('savedArticles', JSON.stringify([]));
+      setViewedArticles([]);
+    } else {
+      setViewedArticles(JSON.parse(savedArticles));
+    }
+  }, []);
+  console.log('viewedArticles: ', viewedArticles);
+
+  // Обработчик клика по карточке
+  const handleCardClick = useCallback((article: TArticle) => {
+    if (article.public_urls[selectedLocale]) {
+      window.open(article.public_urls[selectedLocale], '_blank');
+      const updatedArticles = [...viewedArticles, article];
+      localStorage.setItem('savedArticles', JSON.stringify(updatedArticles));
+      setViewedArticles(updatedArticles);
+    }
+  }, []);
 
   // Получение данных инстанса для списка локалей
   const { data: instance } = useGetInstanceQuery();
@@ -149,7 +168,9 @@ function App() {
               <Card
                 key={article.id}
                 size='small'
-                className={styles.articleCard}
+                className={cn(styles.articleCard, {
+                  [styles.articleCard__viewed]: viewedArticles.find((a) => a.id === article.id),
+                })}
                 title={
                   <Space>
                     <Text>
@@ -160,6 +181,7 @@ function App() {
                     <Tag color={STATUS_COLORS[article.status as Status]}>{article.status}</Tag>
                   </Space>
                 }
+                onClick={() => handleCardClick(article)}
               >
                 <Space direction='vertical' style={{ width: '100%' }}>
                   <div className={styles.articleInfo}>

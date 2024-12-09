@@ -1,26 +1,26 @@
 import { Locales, Status } from '../types';
 
+export type TArticle = {
+  id: number;
+  ext_id: number;
+  rank: number;
+  status: Status;
+  highlight: {
+    title: string;
+    body: string;
+  };
+  public_urls: Record<Locales, string>;
+  created_at: Date;
+  updated_at: Date;
+  published_at: Date | null;
+  author: string;
+  title: Record<Locales, string>;
+};
+
 export type TArticleReply = {
   next: string;
   previous: string;
-  results: [
-    {
-      id: number;
-      ext_id: number;
-      rank: number;
-      status: Status;
-      highlight: {
-        title: string;
-        body: string;
-      };
-      public_urls: Record<Locales, string>;
-      created_at: Date;
-      updated_at: Date;
-      published_at: Date | null;
-      author: string;
-      title: Record<Locales, string>;
-    },
-  ];
+  results: TArticle[];
 };
 
 export type TCategoriesReply = {
