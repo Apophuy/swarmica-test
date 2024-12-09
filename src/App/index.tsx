@@ -32,7 +32,6 @@ function App() {
       limit: 100,
       offset: 0,
       ordering: 'id',
-      public: true,
     },
     {
       refetchOnMountOrArgChange: false,
@@ -153,7 +152,11 @@ function App() {
                 className={styles.articleCard}
                 title={
                   <Space>
-                    <Text>Article #{article.id}</Text>
+                    <Text>
+                      {selectedLocale === Locales.ru
+                        ? `Статья №${article.id}`
+                        : `Article #${article.id}`}
+                    </Text>
                     <Tag color={STATUS_COLORS[article.status as Status]}>{article.status}</Tag>
                   </Space>
                 }
@@ -175,12 +178,14 @@ function App() {
                     </div>
                   )}
 
-                  {article.title[selectedLocale] && (
+                  {article.title[selectedLocale] && article.public_urls[selectedLocale] && (
                     <div className={styles.articleInfo}>
                       <Text type='secondary'>
                         {selectedLocale === Locales.ru ? 'Название:' : 'Title:'}
                       </Text>
-                      <Text>{article.title[selectedLocale]}</Text>
+                      <Link href={article.public_urls[selectedLocale]} target='_blank'>
+                        {article.title[selectedLocale]}
+                      </Link>
                     </div>
                   )}
 
@@ -215,14 +220,6 @@ function App() {
                       </div>
                     )}
                   </div>
-
-                  {article.public_urls[selectedLocale] && (
-                    <div className={styles.articleInfo}>
-                      <Link href={article.public_urls[selectedLocale]} target='_blank'>
-                        {article.public_urls[selectedLocale]}
-                      </Link>
-                    </div>
-                  )}
                 </Space>
               </Card>
             ))}
