@@ -1,3 +1,5 @@
+import { Locales, Status } from '../types';
+
 export type TArticleReply = {
   next: string;
   previous: string;
@@ -6,14 +8,17 @@ export type TArticleReply = {
       id: number;
       ext_id: number;
       rank: number;
-      status: string;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      highlight: any;
-      public_urls: string;
+      status: Status;
+      highlight: {
+        title: string;
+        body: string;
+      };
+      public_urls: Record<Locales, string>;
       created_at: Date;
       updated_at: Date;
-      published_at: Date;
+      published_at: Date | null;
       author: string;
+      title: Record<Locales, string>;
     },
   ];
 };
@@ -25,10 +30,7 @@ export type TCategoriesReply = {
   results: [
     {
       id: number;
-      name: {
-        en: string;
-        hi: string;
-      };
+      name: Record<Locales, string>;
       public: false;
       image_path: string;
     },
@@ -52,6 +54,13 @@ export type TInstanceReply = {
   n_weekly_lai: number;
   ticket_form: string;
   features: string[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  license: any;
+  license: {
+    code: string;
+    expires_at: Date;
+    status: string;
+    features: string[];
+    limits: {
+      agents: number;
+    };
+  };
 };
