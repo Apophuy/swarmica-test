@@ -1,6 +1,6 @@
 import { useGetArticlesQuery, useGetCategoriesQuery, useGetInstanceQuery } from '../store/queries';
 import { Locales, Status, TSearchParams } from '../types';
-import { Input, Select, Space, Card, Typography, Empty, Spin, Tag, message } from 'antd';
+import { Input, Select, Space, Card, Typography, Empty, Spin, Tag, message, Button } from 'antd';
 import { useState, useCallback, useEffect } from 'react';
 import styles from './styles.module.scss';
 import { useDebounce } from '../hooks';
@@ -19,7 +19,13 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
   const [selectedStatus, setSelectedStatus] = useState<Status | undefined>();
   const [searchParams, setSearchParams] = useState<TSearchParams>();
-  const [viewedArticles, setViewedArticles] = useState<TArticle[]>([]);
+  const [viewedArticles, setViewedArticles] = useState<number[]>([]);
+
+  const handleClearHistory = useCallback(() => {
+    localStorage.setItem('savedArticles', JSON.stringify([]));
+    setViewedArticles([]);
+    message.success('История просмотров очищена');
+  }, []);
 
   useEffect(() => {
     const savedArticles = localStorage.getItem('savedArticles');
@@ -30,13 +36,12 @@ function App() {
       setViewedArticles(JSON.parse(savedArticles));
     }
   }, []);
-  console.log('viewedArticles: ', viewedArticles);
 
   // Обработчик клика по карточке
   const handleCardClick = useCallback((article: TArticle) => {
     if (article.public_urls[selectedLocale]) {
       window.open(article.public_urls[selectedLocale], '_blank');
-      const updatedArticles = [...viewedArticles, article];
+      const updatedArticles = viewedArticles.concat(article.id);
       localStorage.setItem('savedArticles', JSON.stringify(updatedArticles));
       setViewedArticles(updatedArticles);
     }
@@ -169,7 +174,7 @@ function App() {
                 key={article.id}
                 size='small'
                 className={cn(styles.articleCard, {
-                  [styles.articleCard__viewed]: viewedArticles.find((a) => a.id === article.id),
+                  [styles.articleCard__viewed]: viewedArticles.includes(article.id),
                 })}
                 title={
                   <Space>
@@ -252,6 +257,11 @@ function App() {
           />
         )}
       </Card>
+      {viewedArticles.length > 0 && (
+        <Button className={styles.clearButton} onClick={handleClearHistory}>
+          {selectedLocale === Locales.ru ? 'Очистить историю просмотров' : 'Clear view history'}
+        </Button>
+      )}
     </div>
   );
 }

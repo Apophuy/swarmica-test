@@ -7,7 +7,7 @@
     "dev": "vite --open",
     "build": "tsc -b && vite build",
     "lint:old": "eslint .",
-    "preview": "vite preview",
+    "preview": "vite preview --open",
     "lint:eslint": "eslint \"src/**/*.{ts,tsx,js,jsx,json}\"",
     "lint:eslint:fix": "npm run lint:eslint -- --fix",
     "lint:stylelint": "stylelint \"src/**/*.{css,scss}\"",
