@@ -1,0 +1,55 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f0f2f5;
+
+  :global(.ant-card) {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.articleCard {
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
+    cursor: pointer;
+  }
+
+  &__viewed {
+    background-color: #a4c5f1;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
+  }
+}
+
+.articleInfo {
+  display: flex;
+  gap: 8px;
+
+  :global(.ant-typography-secondary) {
+    min-width: 100px;
+  }
+}
+
+.dates {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  background-color: #fafafa;
+  border-radius: 4px;
+}
+
+.clearButton {
+  display: block;
+  margin: 20px auto;
+}

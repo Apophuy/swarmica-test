@@ -1,50 +1,24 @@
-# React + TypeScript + Vite
+## Swarmica Test
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Для запуска приложения локально необходимо:
 
-Currently, two official plugins are available:
+1. Установить [Node.js](https://nodejs.org/en/download/)
+2. Установить [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
+3. Запустить `yarn install`
+4. Запустить `yarn run dev`
+   Страница в браузере откроется на [http://localhost:3000](http://localhost:3000)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Для запуска предпросмотра готового приложения необходимо:
 
-## Expanding the ESLint configuration
+1. Установить [Node.js](https://nodejs.org/en/download/)
+2. Установить [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
+3. Запустить `yarn install`
+4. Запустить `yarn run build`
+5. Запустить `yarn run preview`
+   Страница в браузере откроется на [http://localhost:4173](http://localhost:4173)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Карточки с просмотренной статьёй окрашиваются цветом `#a4c5f1` и добавляется тень.
 
-- Configure the top-level `parserOptions` property like this:
+При нажатии на кнопку `Clear history` в локальном приложении история просмотров очищается.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Для разнообразия при переключении языка изменяется и язык текста на странице.
