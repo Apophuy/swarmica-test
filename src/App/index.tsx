@@ -1,5 +1,5 @@
 import { useGetArticlesQuery, useGetCategoriesQuery, useGetInstanceQuery } from '../store/queries';
-import { Locales, Status, TSearchParams } from '../types';
+import { Locales, Status } from '../types';
 import { Input, Select, Space, Card, Typography, Empty, Spin, Tag, message, Button } from 'antd';
 import { useState, useCallback, useEffect } from 'react';
 import styles from './styles.module.scss';
@@ -8,6 +8,7 @@ import { STATUS_COLORS, STATUS_OPTIONS } from '../constants';
 import Link from 'antd/es/typography/Link';
 import { TArticle } from '../api/replies';
 import cn from 'classnames';
+import { TArticlesRequest } from '../api/requests';
 
 const { Search } = Input;
 const { Title, Text } = Typography;
@@ -18,14 +19,14 @@ function App() {
   const [selectedLocale, setSelectedLocale] = useState<Locales>(Locales.ru);
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
   const [selectedStatus, setSelectedStatus] = useState<Status | undefined>();
-  const [searchParams, setSearchParams] = useState<TSearchParams>();
+  const [searchParams, setSearchParams] = useState<TArticlesRequest>();
   const [viewedArticles, setViewedArticles] = useState<number[]>([]);
 
-  const handleClearHistory = useCallback(() => {
+  const handleClearHistory = () => {
     localStorage.setItem('savedArticles', JSON.stringify([]));
     setViewedArticles([]);
     message.success('История просмотров очищена');
-  }, []);
+  };
 
   useEffect(() => {
     const savedArticles = localStorage.getItem('savedArticles');
@@ -38,14 +39,15 @@ function App() {
   }, []);
 
   // Обработчик клика по карточке
-  const handleCardClick = useCallback((article: TArticle) => {
+  const handleCardClick = (article: TArticle) => {
     if (article.public_urls[selectedLocale]) {
       window.open(article.public_urls[selectedLocale], '_blank');
-      const updatedArticles = viewedArticles.concat(article.id);
-      localStorage.setItem('savedArticles', JSON.stringify(updatedArticles));
-      setViewedArticles(updatedArticles);
     }
-  }, []);
+
+    const updatedArticles = viewedArticles.concat(article.id);
+    localStorage.setItem('savedArticles', JSON.stringify(updatedArticles));
+    setViewedArticles(updatedArticles);
+  };
 
   // Получение данных инстанса для списка локалей
   const { data: instance } = useGetInstanceQuery();

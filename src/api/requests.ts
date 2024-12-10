@@ -8,7 +8,7 @@ export type TCategoriesRequest = {
 };
 
 export type TArticlesRequest = {
-  search?: string;
+  search: string;
   category?: number;
   locale?: Locales;
   status?: Status[];
